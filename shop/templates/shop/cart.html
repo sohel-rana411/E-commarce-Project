@@ -1,0 +1,75 @@
+{% extends 'shop/base.html' %}
+{% block title %}Your Cart - PagePress Books{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2 class="section-title mb-4">Shopping Cart</h2>
+
+  {% if cart|length > 0 %}
+  <div class="table-responsive">
+    <table class="table align-middle" id="cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+        <tr data-price="{{ item.product.price }}">
+          <td class="d-flex align-items-center gap-2">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" class="cart-thumb" alt="{{ item.product.name }}">
+            {% endif %}
+            <span>{{ item.product.name }}</span>
+          </td>
+          <td>৳<span class="unit-price">{{ item.product.price }}</span></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <form method="post" action="{% url 'cart_decrease' item.product.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+              </form>
+              <form method="post" action="{% url 'cart_set_quantity' item.product.id %}" class="qty-form d-inline">
+                {% csrf_token %}
+                <input type="number" name="quantity" class="form-control form-control-sm qty-input" style="width:60px"
+                       value="{{ item.quantity }}" min="1" max="{{ item.product.quantity }}"
+                       onchange="this.form.submit()">
+              </form>
+              <form method="post" action="{% url 'cart_increase' item.product.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-secondary" {% if item.quantity >= item.product.quantity %}disabled{% endif %}>+</button>
+              </form>
+            </div>
+          </td>
+          <td>৳<span class="row-subtotal">{{ item.subtotal }}</span></td>
+          <td>
+            <form method="post" action="{% url 'cart_remove' item.product.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" class="text-end">Total</th>
+          <th>৳<span id="cart-total">{{ cart.get_total_price }}</span></th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="text-end">
+    <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">Continue Shopping</a>
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+  </div>
+  {% else %}
+    <div class="alert alert-info">Your cart is empty. <a href="{% url 'product_list' %}">Browse products</a> to add items.</div>
+  {% endif %}
+</div>
+{% endblock %}

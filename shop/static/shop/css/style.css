@@ -1,0 +1,65 @@
+body {
+  background-color: #f8f7f4;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.shop-navbar {
+  background-color: #3b2f2f;
+}
+
+.banner-hero {
+  background: linear-gradient(135deg, #4b3832 0%, #854442 100%);
+}
+
+.section-title {
+  border-left: 5px solid #854442;
+  padding-left: 12px;
+  font-weight: 700;
+}
+
+.category-card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.product-card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.product-img {
+  height: 220px;
+  object-fit: cover;
+}
+
+.detail-img {
+  width: 100%;
+  min-height: 320px;
+  object-fit: cover;
+}
+
+.cart-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.shop-footer {
+  background-color: #3b2f2f;
+  color: #f1f1f1;
+}
+
+.qty-input {
+  text-align: center;
+}

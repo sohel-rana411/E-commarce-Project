@@ -1,0 +1,67 @@
+{% extends 'shop/base.html' %}
+{% block title %}Checkout - PagePress Books{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2 class="section-title mb-4">Checkout</h2>
+  <div class="row g-4">
+    <div class="col-md-7">
+      <div class="card p-4">
+        <h5 class="mb-3">Delivery Details</h5>
+        <form method="post" id="checkout-form" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Customer Name</label>
+            {{ form.name }}
+            <div class="invalid-feedback">Please enter your name.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            {{ form.phone }}
+            <div class="invalid-feedback">Please enter a valid phone number.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            {{ form.address }}
+            <div class="invalid-feedback">Please enter your delivery address.</div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Place Order</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="card p-4">
+        <h5 class="mb-3">Order Summary</h5>
+        <ul class="list-group list-group-flush mb-3">
+          {% for item in cart %}
+            <li class="list-group-item d-flex justify-content-between">
+              <span>{{ item.product.name }} &times; {{ item.quantity }}</span>
+              <span>৳{{ item.subtotal }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="d-flex justify-content-between fw-bold fs-5">
+          <span>Total</span>
+          <span>৳{{ cart.get_total_price }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Simple client-side form validation before submitting the checkout form.
+(function () {
+  const form = document.getElementById('checkout-form');
+  form.addEventListener('submit', function (event) {
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  });
+})();
+</script>
+{% endblock %}
